@@ -2,9 +2,13 @@
 #include "parser.h"
 #include "stack.h"
 
-InstrList* compile(Expr* expr){
+InstrList* expr2instr(Expr* expr){
   if(expr->kind == E_INTEGER){
-    Instr *no = mk_instr_ldc(expr->attr.value);
+    Instr *no = mk_instr_ldc_int(expr->attr.value);
+    return mk_instrlist(no,NULL);
+  }
+  else if(expr->kind == E_VAR){
+    Instr *no = mk_instr_ldc_var(expr->attr.var->name);
     return mk_instrlist(no,NULL);
   }
   else if(expr->kind == E_OPERATION){
@@ -21,14 +25,19 @@ InstrList* compile(Expr* expr){
         break;
     }
 
-    InstrList* instrlist = compile(expr->attr.op.left);
-    append(instrlist,compile(expr->attr.op.right));
+    InstrList* instrlist = expr2instr(expr->attr.op.left);
+    append(instrlist,expr2instr(expr->attr.op.right));
     append(instrlist,mk_instrlist(no,NULL));
     
     return instrlist;
   }
 }
 
+InstrList* atrib2instr(Attrib* atrib){
+
+}
+
+/*
 void printMips(InstrList* instrlist){
   if(instrlist){
     switch(instrlist->node->type){
@@ -59,6 +68,7 @@ void printMips(InstrList* instrlist){
   }
   return;
 }
+*/
 
 int main(int argc, char** argv) {
   --argc; ++argv;

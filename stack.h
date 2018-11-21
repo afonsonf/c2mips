@@ -11,6 +11,7 @@ struct _Instr{
     } type;
     union {
         int num;
+        char* var;
     } attr;
 };
 
@@ -22,7 +23,8 @@ struct _InstrList{
 typedef struct _Instr Instr;
 typedef struct _InstrList InstrList;
 
-Instr* mk_instr_ldc(int num);
+Instr* mk_instr_ldc_int(int num);
+Instr* mk_instr_ldc_var(char* var);
 Instr* mk_instr_adi();
 Instr* mk_instr_mpi();
 Instr* mk_instr_sbi();
