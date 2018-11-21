@@ -15,13 +15,13 @@ InstrList* expr2instr(Expr* expr){
     Instr *no;
     switch (expr->attr.op.operator) {
       case PLUS:
-        no = mk_instr_adi();
+        no = mk_instr(E_ADI);
         break;
       case MINUS:
-        no = mk_instr_sbi();
+        no = mk_instr(E_SBI);
         break;
       case MULT:
-        no = mk_instr_mpi();
+        no = mk_instr(E_MPI);
         break;
     }
 

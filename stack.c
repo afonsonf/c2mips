@@ -16,23 +16,12 @@ Instr* mk_instr_ldc_var(char* var){
     return node;
 }
 
-Instr* mk_instr_adi(){
+Instr* mk_instr(instrtype type){
     Instr *node = (Instr*) malloc(sizeof(Instr));
-    node->type = E_ADI;
+    node->type = type;
     return node;
 }
 
-Instr* mk_instr_mpi(){
-    Instr *node = (Instr*) malloc(sizeof(Instr));
-    node->type = E_MPI;
-    return node;
-}
-
-Instr* mk_instr_sbi(){
-    Instr *node = (Instr*) malloc(sizeof(Instr));
-    node->type = E_SBI;
-    return node;
-}
 
 InstrList* mk_instrlist(Instr* instr, InstrList* next){
     InstrList *node = (InstrList*) malloc(sizeof(InstrList));
