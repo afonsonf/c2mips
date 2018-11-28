@@ -57,7 +57,7 @@ InstrList *atrib2instr(Attrib *atrib)
   }
 
   InstrList *result = NULL;
-  Instr *no = mk_instr_lca(atrib->var->name);
+  Instr *no = mk_instr_lda(atrib->var->name);
   if (decl)
   {
     result = decl;
@@ -73,6 +73,7 @@ InstrList *atrib2instr(Attrib *atrib)
 
   no = mk_instr(E_STO);
   instrlist_append_instr(result, no);
+  return result;
 }
 
 InstrList *cmd2instr(Cmd *cmd)

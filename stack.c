@@ -16,9 +16,9 @@ Instr* mk_instr_lod(char* var){
   return node;
 }
 
-Instr* mk_instr_lca(char* var){
+Instr* mk_instr_lda(char* var){
   Instr *node = (Instr*) malloc(sizeof(Instr));
-  node->type = E_LCA;
+  node->type = E_LDA;
   node->attr.var = var;
   return node;
 }
@@ -83,8 +83,8 @@ void print_Instr(Instr* instr){
     case E_LOD:
       printf("LOD %s\n",instr->attr.var);
       break;
-    case E_LCA:
-      printf("LCA %s\n",instr->attr.var);
+    case E_LDA:
+      printf("LDA %s\n",instr->attr.var);
       break;
     case E_STO:
       printf("STO\n");
@@ -105,43 +105,43 @@ void print_Instr(Instr* instr){
       printf("DVI\n");
       break;
     case E_EQU:
-      printf("EQU %d");
+      printf("EQU\n");
       break;
     case E_GEQ:
-      printf();
+      printf("\n");
       break;
     case E_GES:
-      printf();
+      printf("\n");
       break;
     case E_LEQ:
-      printf();
+      printf("\n");
       break;
     case E_LES:
-      printf();
+      printf("\n");
       break;
     case E_NEQ:
-      printf();
+      printf("\n");
       break;
     case E_IOR:
-      printf();
+      printf("\n");
       break;
     case E_AND:
-      printf();
+      printf("\n");
       break;
     case E_NOT:
-      printf();
+      printf("\n");
       break;
     case E_FJP:
-      printf();
+      printf("\n");
       break;
     case E_UJP:
-      printf();
+      printf("\n");
       break;
     case E_LBL:
-      printf();
+      printf("%s\n",instr->attr.lbl);
       break;
     case E_DCL_VAR:
-      printf();
+      printf("%s\n",instr->attr.lbl);
       break;
 
   }

@@ -5,7 +5,7 @@
 typedef enum {
     E_LDC, //load constant (-,x) Q
     E_LOD, //load content of address (-,x) PQ
-    E_LCA, //load adress (-,a) Q
+    E_LDA, //load adress (-,a) Q
 
     E_STO, //store content in adress (ax,-) -
 
@@ -52,7 +52,7 @@ typedef struct _InstrList InstrList;
 
 Instr* mk_instr_ldc(int num);
 Instr* mk_instr_lod(char* var);
-Instr* mk_instr_lca(char *var);
+Instr* mk_instr_lda(char *var);
 Instr* mk_instr_lbl(char *lbl);
 Instr* mk_instr_dcl_var(char *var);
 Instr* mk_instr(instrtype type);
