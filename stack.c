@@ -2,16 +2,23 @@
 #include <stdio.h> //for printf
 #include "stack.h"
 
-Instr* mk_instr_ldc_int(int num){
+Instr* mk_instr_ldc(int num){
     Instr *node = (Instr*) malloc(sizeof(Instr));
     node->type = E_LDC;
     node->attr.num = num;
     return node;
 }
 
-Instr* mk_instr_ldc_var(char* var){
+Instr* mk_instr_lod(char* var){
     Instr *node = (Instr*) malloc(sizeof(Instr));
-    node->type = E_LDC;
+    node->type = E_LOD;
+    node->attr.var = var;
+    return node;
+}
+
+Instr* mk_instr_lda(char* var){
+    Instr *node = (Instr*) malloc(sizeof(Instr));
+    node->type = E_LCA;
     node->attr.var = var;
     return node;
 }
