@@ -61,7 +61,7 @@ InstrList* mk_instrlist(Instr* instr, InstrList* next);
 Instr* instrlist_head(InstrList* instrlist);
 InstrList* instrlist_tail(InstrList* instrlist);
 void instrlist_append(InstrList* instrlist1, InstrList* instrlist2);
-void instr_append_instr(InstrList* instrlist, Instr *instr);
+void instrlist_append_instr(InstrList* instrlist, Instr *instr);
 
 void print_Instr(Instr* instr);
 void print_InstrList(InstrList *instrlist);

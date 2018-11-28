@@ -51,7 +51,6 @@ int yyline = 1;
     return STRING;
 }
 
-"for" { return FOR; }
 "while"  { return WHILE; }
 "printf" { return PRINTF; }
 "scanf"  { return SCANF; }

@@ -8,12 +8,12 @@ InstrList *expr2instr(Expr *expr)
 {
   if (expr->kind == E_INTEGER)
   {
-    Instr *no = mk_instr_ldc_int(expr->attr.value);
+    Instr *no = mk_instr_ldc(expr->attr.value);
     return mk_instrlist(no, NULL);
   }
   else if (expr->kind == E_VAR)
   {
-    Instr *no = mk_instr_ldc_var(expr->attr.var->name);
+    Instr *no = mk_instr_lod(expr->attr.var->name);
     return mk_instrlist(no, NULL);
   }
   else if (expr->kind == E_OPERATION)
@@ -53,15 +53,15 @@ InstrList *atrib2instr(Attrib *atrib)
   if (atrib->var->type == VARINT)
   {
     Instr *tmp = mk_instr_dcl_var(atrib->var->name);
-    decl = mk_instrlist(decl, NULL);
+    decl = mk_instrlist(tmp, NULL);
   }
 
   InstrList *result = NULL;
-  Instr *no = mk_instr_lda(atrib->var->name);
+  Instr *no = mk_instr_lca(atrib->var->name);
   if (decl)
   {
     result = decl;
-    instrList_append_instr(result, no);
+    instrlist_append_instr(result, no);
   }
   else
   {
@@ -69,10 +69,10 @@ InstrList *atrib2instr(Attrib *atrib)
   }
 
   InstrList *node = expr2instr(atrib->value);
-  instrList_append(result, node);
+  instrlist_append(result, node);
 
   no = mk_instr(E_STO);
-  instrList_append_instr(result, no);
+  instrlist_append_instr(result, no);
 }
 
 InstrList *cmd2instr(Cmd *cmd)
@@ -89,6 +89,7 @@ InstrList *cmd2instr(Cmd *cmd)
   //return printf2instr(cmd->attr.cmdprintf);
   case E_Scanf:
     //return scanf2instr(cmd->attr.cmdscanf);
+    return NULL;
   }
   return NULL;
 }
@@ -104,7 +105,11 @@ InstrList *cmdlist2instr(CmdList *cmdlist)
 }
 
 InstrList *function2instr(Function *fun){
-  //Instr *instr = mk_in;
+  Instr *instr = mk_instr_lbl(fun->name);
+  InstrList *next = cmdlist2instr(fun->cmdlist);
+  InstrList *res = mk_instrlist(instr,next);
+
+  return res;
 }
 
 /*
@@ -158,7 +163,7 @@ int main(int argc, char **argv)
   if (yyparse() == 0)
   {
     currLabel = 0;
-    InstrList *res = cmdlist2instr(root);
+    InstrList *res = function2instr(root);
 
     print_InstrList(res);
   }

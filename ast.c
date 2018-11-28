@@ -97,33 +97,6 @@ While* ast_while(BoolExpr* boolexpr, CmdList *cmdlist){
   return node;
 }
 
-For* ast_for(Attrib *init, BoolExpr *boolexpr, Attrib *inc, CmdList *cmdlist){
-  For* node = (For*) malloc(sizeof(For));
-  node->init = init;
-  node->boolexpr = boolexpr;
-  node->inc = inc;
-  node->cmdlist = cmdlist;
-  return node;
-}
-
-/*
-For* ast_for(Var *var, Expr *value, BoolExpr *boolexpr, Var *incVar, Expr *incValue, CmdList *cmdlist){
-  For* node = (For*) malloc(sizeof(For));
-  Attrib* nodeAttrInit = (Attrib*) malloc(sizeof(Attrib));
-  Attrib* nodeAttrInc = (Attrib*) malloc(sizeof(Attrib));
-  //Tem que ser assim, precisa alocar espaço para as estruturas, se não fizer isso da segmentation fault.
-  nodeAttrInit->var = var;
-  nodeAttrInit->value = value;
-  nodeAttrInc->var = incVar;
-  nodeAttrInc->value = incValue;
-  node->init = nodeAttrInit;
-  node->boolexpr = boolexpr;
-  node->inc = nodeAttrInc;
-  node->cmdlist = cmdlist;
-  return node;
-}
-*/
-
 Printf* ast_printf(char* s, VarList *varlist){
   Printf* node = (Printf*) malloc(sizeof(Printf));
   node->s = s;

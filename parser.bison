@@ -12,7 +12,6 @@
   MAIN
   WHILE
   IF
-  FOR
   ELSE
   PRINTF
   SCANF
@@ -69,7 +68,6 @@
 
   Attrib *attribvalue;
   While *whilevalue;
-  For *forvalue;
   If *ifvalue;
   Printf *printfvalue;
   Scanf *scanfvalue;
@@ -95,7 +93,6 @@
 %type <attribvalue> attrib
 %type <attribvalue> preattrib
 %type <whilevalue> while
-%type <forvalue> for
 %type <printfvalue> printf
 %type <scanfvalue> scanf
 %type <ifvalue> if
@@ -151,10 +148,6 @@ cmd:
     $$ = ast_cmd_while($1);
   }
   |
-  for {
-    $$ = ast_cmd_for($1);
-  }
-  |
   printf {
     $$ = ast_cmd_printf($1);
   }
@@ -195,12 +188,6 @@ if:
 while:
   WHILE OPENPAR boolexpr CLOSEPAR statement {
     $$ = ast_while($3,$5);
-  }
-;
-
-for:
-  FOR OPENPAR attrib boolexpr SEMICOLON preattrib CLOSEPAR statement{
-    $$ = ast_for($3,$4,$6,$8);
   }
 ;
 

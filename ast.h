@@ -147,8 +147,6 @@ Attrib* ast_attrib(Var *var, Expr *value);
 If* ast_if(BoolExpr* boolexpr, CmdList *cmdlist);
 If* ast_if_else(BoolExpr* boolexpr, CmdList *cmdlist, CmdList *cmdlist_pos);
 While* ast_while(BoolExpr* boolexpr, CmdList *cmdlist);
-For* ast_for(Attrib *init, BoolExpr *boolexpr, Attrib *inc, CmdList *cmdlist);
-//For* ast_for(Var *var, Expr *value, BoolExpr *boolexpr, Var *incVar, Expr *incValue, CmdList *cmdlist);
 Printf* ast_printf(char* s, VarList *varlist);
 Scanf* ast_scanf(char* s, VarList *varlist);
 
