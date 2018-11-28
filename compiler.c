@@ -2,8 +2,6 @@
 #include "parser.h"
 #include "stack.h"
 
-int currLabel;
-
 InstrList* expr2instr(Expr* expr){
   if(expr->kind == E_INTEGER){
     Instr *no = mk_instr_ldc_int(expr->attr.value);
@@ -22,27 +20,29 @@ InstrList* expr2instr(Expr* expr){
       case MINUS:
         no = mk_instr(E_SBI);
         break;
+      case MOD:
+        no = mk_instr(E_MOD);
+        break;
       case MULT:
         no = mk_instr(E_MPI);
+        break;
+      case DIV:
+        no = mk_instr(E_DVI);
         break;
     }
 
     InstrList* instrlist = expr2instr(expr->attr.op.left);
     append(instrlist,expr2instr(expr->attr.op.right));
     append(instrlist,mk_instrlist(no,NULL));
-    
+
     return instrlist;
   }
+  return NULL;
 }
 
 InstrList* atrib2instr(Attrib* atrib){
+  Instr *no = mk_instr_lda(atrib->attr.var->name);
 
-}
-
-InstrList* cmdlist2instr(CmdList* cmdlist){
-  if(!cmdlist) return NULL;
-  InstrList *next = cmdlist2instr(cmdlist->next);
-  InstrList *node = cmd2instr() 
 }
 
 /*
@@ -88,8 +88,7 @@ int main(int argc, char** argv) {
     }
   } //  yyin = stdin
   if (yyparse() == 0) {
-    currLabel = 0;
-    //printFunction(root,0);
+      //printFunction(root,0);
   }
   return 0;
 }
