@@ -55,6 +55,7 @@ InstrList *atrib2instr(Attrib *atrib)
     Instr *tmp = mk_instr_dcl_var(atrib->var->name);
     decl = mk_instrlist(decl, NULL);
   }
+
   InstrList *result = NULL;
   Instr *no = mk_instr_lda(atrib->var->name);
   if (decl)
@@ -66,8 +67,10 @@ InstrList *atrib2instr(Attrib *atrib)
   {
     result = mk_instrlist(no, NULL);
   }
+
   InstrList *node = expr2instr(atrib->value);
   instrList_append(result, node);
+
   no = mk_instr(E_STO);
   instrList_append_instr(result, no);
 }
@@ -95,8 +98,13 @@ InstrList *cmdlist2instr(CmdList *cmdlist)
   if (!cmdlist)
     return NULL;
   InstrList *next = cmdlist2instr(cmdlist->next);
-  InstrList *node = cmd2instr(cmdlist->node);
-  return append(node, next);
+  InstrList *node = cmd2instr(cmdlist->value);
+  instrlist_append(node, next);
+  return node;
+}
+
+InstrList *function2instr(Function *fun){
+  //Instr *instr = mk_in;
 }
 
 /*
@@ -150,7 +158,9 @@ int main(int argc, char **argv)
   if (yyparse() == 0)
   {
     currLabel = 0;
-    //printFunction(root,0);
+    InstrList *res = cmdlist2instr(root);
+
+    print_InstrList(res);
   }
   return 0;
 }

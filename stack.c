@@ -23,7 +23,19 @@ Instr* mk_instr_lca(char* var){
     return node;
 }
 
+Instr* mk_instr_lbl(char *lbl){
+    Instr *node = (Instr*) malloc(sizeof(Instr));
+    node->type = E_LBL;
+    node->attr.lbl = lbl;
+    return node;
+}
 
+Instr* mk_instr_dcl_var(char *var){
+    Instr *node = (Instr*) malloc(sizeof(Instr));
+    node->type = E_DCL_VAR;
+    node->attr.lbl = var;
+    return node;
+}
 
 Instr* mk_instr(instrtype type){
     Instr *node = (Instr*) malloc(sizeof(Instr));
