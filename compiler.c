@@ -45,6 +45,29 @@ InstrList* atrib2instr(Attrib* atrib){
 
 }
 
+InstrList* cmd2instr(Cmd* cmd){
+  switch(cmd->type){
+    case E_Attrib:
+      return atrib2instr(cmd->attr.cmdattr);
+    case E_If:
+      //return if2instr(cmd->attr.cmdif);
+    case E_While:
+      //return while2instr(cmd->attr.cmdwhile);
+    case E_Printf:
+      //return printf2instr(cmd->attr.cmdprintf);
+    case E_Scanf:
+      //return scanf2instr(cmd->attr.cmdscanf);
+  }
+  return NULL;
+}
+
+InstrList* cmdlist2instr(CmdList* cmdlist){
+  if(!cmdlist) return NULL;
+  InstrList *next = cmdlist2instr(cmdlist->next);
+  InstrList *node = cmd2instr(cmdlist->node);
+  return append(node,next);
+}
+
 /*
 void printMips(InstrList* instrlist){
   if(instrlist){
