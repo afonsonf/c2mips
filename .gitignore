@@ -1,0 +1,10 @@
+ast.o
+interpreter
+interpreter.o
+parser.c
+parser.h
+parser.o
+scanner.c
+scanner.o
+stack.o
+*.zip
