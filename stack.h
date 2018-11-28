@@ -48,7 +48,6 @@ typedef struct _InstrList InstrList;
 
 Instr* mk_instr_ldc_int(int num);
 Instr* mk_instr_ldc_var(char* var);
-Instr* mk_instr_sto(char* var,int num);
 Instr* mk_instr(instrtype type);
 
 InstrList* mk_instrlist(Instr* instr, InstrList* next);
