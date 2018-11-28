@@ -16,7 +16,7 @@ Instr* mk_instr_lod(char* var){
     return node;
 }
 
-Instr* mk_instr_lda(char* var){
+Instr* mk_instr_lca(char* var){
     Instr *node = (Instr*) malloc(sizeof(Instr));
     node->type = E_LCA;
     node->attr.var = var;

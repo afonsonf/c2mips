@@ -48,7 +48,7 @@ typedef struct _InstrList InstrList;
 
 Instr* mk_instr_ldc(int num);
 Instr* mk_instr_lod(char* var);
-Instr* mk_instr_lda(char *var);
+Instr* mk_instr_lca(char *var);
 Instr* mk_instr(instrtype type);
 
 InstrList* mk_instrlist(Instr* instr, InstrList* next);
