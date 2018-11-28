@@ -23,6 +23,8 @@ Instr* mk_instr_lca(char* var){
     return node;
 }
 
+
+
 Instr* mk_instr(instrtype type){
     Instr *node = (Instr*) malloc(sizeof(Instr));
     node->type = type;
@@ -45,12 +47,20 @@ InstrList* instrlist_tail(InstrList* instrlist){
     return instrlist->next;
 }
 
-void append(InstrList* instrlist1, InstrList* instrlist2){
+void instrlist_append(InstrList* instrlist1, InstrList* instrlist2){
     InstrList *tmp = instrlist1;
 
     while(tmp->next) tmp = tmp->next;
 
     tmp->next = instrlist2;
+}
+
+void instrlist_append_instr(InstrList* instrlist, Instr* instr){
+    InstrList *tmp = instrlist;
+
+    while(tmp->next) tmp = tmp->next;
+
+    tmp->next = mk_instrlist(instr, NULL);
 }
 
 void print_Instr(Instr* instr){

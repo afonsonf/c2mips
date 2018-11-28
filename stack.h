@@ -27,7 +27,10 @@ typedef enum {
     E_NOT, //logic NOT (b,b) -
 
     E_FJP, //false jump (b,-) Q
-    E_UJP  //unconditional jump (-,-) Q
+    E_UJP, //unconditional jump (-,-) Q
+
+    E_LBL, //label
+    E_DCL_VAR //declaration of var
 } instrtype;
 
 struct _Instr{
@@ -54,7 +57,8 @@ Instr* mk_instr(instrtype type);
 InstrList* mk_instrlist(Instr* instr, InstrList* next);
 Instr* instrlist_head(InstrList* instrlist);
 InstrList* instrlist_tail(InstrList* instrlist);
-void append(InstrList* instrlist1, InstrList* instrlist2);
+void instrlist_append(InstrList* instrlist1, InstrList* instrlist2);
+void instr_append_instr(InstrList* instrlist, Instr *instr);
 
 void print_Instr(Instr* instr);
 void print_InstrList(InstrList *instrlist);

@@ -2,70 +2,79 @@
 #include "parser.h"
 #include "stack.h"
 
-InstrList* expr2instr(Expr* expr){
-  if(expr->kind == E_INTEGER){
+InstrList *expr2instr(Expr *expr)
+{
+  if (expr->kind == E_INTEGER)
+  {
     Instr *no = mk_instr_ldc_int(expr->attr.value);
-    return mk_instrlist(no,NULL);
+    return mk_instrlist(no, NULL);
   }
-  else if(expr->kind == E_VAR){
+  else if (expr->kind == E_VAR)
+  {
     Instr *no = mk_instr_ldc_var(expr->attr.var->name);
-    return mk_instrlist(no,NULL);
+    return mk_instrlist(no, NULL);
   }
-  else if(expr->kind == E_OPERATION){
+  else if (expr->kind == E_OPERATION)
+  {
     Instr *no;
-    switch (expr->attr.op.operator) {
-      case PLUS:
-        no = mk_instr(E_ADI);
-        break;
-      case MINUS:
-        no = mk_instr(E_SBI);
-        break;
-      case MOD:
-        no = mk_instr(E_MOD);
-        break;
-      case MULT:
-        no = mk_instr(E_MPI);
-        break;
-      case DIV:
-        no = mk_instr(E_DVI);
-        break;
+    switch (expr->attr.op.operator)
+    {
+    case PLUS:
+      no = mk_instr(E_ADI);
+      break;
+    case MINUS:
+      no = mk_instr(E_SBI);
+      break;
+    case MOD:
+      no = mk_instr(E_MOD);
+      break;
+    case MULT:
+      no = mk_instr(E_MPI);
+      break;
+    case DIV:
+      no = mk_instr(E_DVI);
+      break;
     }
 
-    InstrList* instrlist = expr2instr(expr->attr.op.left);
-    append(instrlist,expr2instr(expr->attr.op.right));
-    append(instrlist,mk_instrlist(no,NULL));
+    InstrList *instrlist = expr2instr(expr->attr.op.left);
+    append(instrlist, expr2instr(expr->attr.op.right));
+    append(instrlist, mk_instrlist(no, NULL));
 
     return instrlist;
   }
   return NULL;
 }
 
-InstrList* atrib2instr(Attrib* atrib){
+InstrList *atrib2instr(Attrib *atrib)
+{
   Instr *no = mk_instr_lda(atrib->attr.var->name);
-
 }
 
-InstrList* cmd2instr(Cmd* cmd){
-  switch(cmd->type){
-    case E_Attrib:
-      return atrib2instr(cmd->attr.cmdattr);
-    case E_If:
-      //return if2instr(cmd->attr.cmdif);
-    case E_While:
-      //return while2instr(cmd->attr.cmdwhile);
-    case E_Printf:
-      //return printf2instr(cmd->attr.cmdprintf);
-    case E_Scanf:
-      //return scanf2instr(cmd->attr.cmdscanf);
+InstrList *cmd2instr(Cmd *cmd)
+{
+  switch (cmd->type)
+  {
+  case E_Attrib:
+    return atrib2instr(cmd->attr.cmdattr);
+  case E_If:
+    //return if2instr(cmd->attr.cmdif);
+  case E_While:
+    //return while2instr(cmd->attr.cmdwhile);
+  case E_Printf:
+    //return printf2instr(cmd->attr.cmdprintf);
+  case E_Scanf:
+    //return scanf2instr(cmd->attr.cmdscanf);
   }
   return NULL;
 }
 
-InstrList* cmdlist2instr(CmdList* cmdlist){
-  if(!cmdlist) return NULL;
+InstrList *cmdlist2instr(CmdList *cmdlist)
+{
+  if (!cmdlist)
+    return NULL;
   InstrList *next = cmdlist2instr(cmdlist->next);
   InstrList *node = cmd2instr(cmdlist->node);
-  return append(node,next);
+  return append(node, next);
 }
 
 /*
@@ -101,17 +110,22 @@ void printMips(InstrList* instrlist){
 }
 */
 
-int main(int argc, char** argv) {
-  --argc; ++argv;
-  if (argc != 0) {
+int main(int argc, char **argv)
+{
+  --argc;
+  ++argv;
+  if (argc != 0)
+  {
     yyin = fopen(*argv, "r");
-    if (!yyin) {
+    if (!yyin)
+    {     
       printf("'%s': could not open file\n", *argv);
       return 1;
     }
   } //  yyin = stdin
-  if (yyparse() == 0) {
-      //printFunction(root,0);
+  if (yyparse() == 0)
+  {
+    //printFunction(root,0);
   }
   return 0;
 }
