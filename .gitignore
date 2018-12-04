@@ -1,6 +1,6 @@
 ast.o
-interpreter
-interpreter.o
+compiler
+compiler.o
 parser.c
 parser.h
 parser.o
