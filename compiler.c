@@ -167,7 +167,7 @@ InstrList *if2instr(If* ifcmd){
 
 }
 
-InstrList *while2instr(cmdwhile *whilecmd){
+InstrList *while2instr(While *whilecmd){
   int while_start = currLabel;
   currLabel++;
   int while_end = currLabel;
@@ -180,7 +180,7 @@ InstrList *while2instr(cmdwhile *whilecmd){
   no = mk_instr_fjp(while_end);
   instrlist_append_instr(result,no);
 
-
+  return result;
 }
 
 InstrList *cmd2instr(Cmd *cmd)
