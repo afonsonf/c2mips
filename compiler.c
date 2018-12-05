@@ -2,6 +2,15 @@
 #include "parser.h"
 #include "stack.h"
 
+InstrList *expr2instr(Expr *expr);
+InstrList *boolexpr2instr(BoolExpr* boolexpr);
+
+InstrList *atrib2instr(Attrib *atrib);
+InstrList *if2instr(If* ifcmd);
+
+InstrList *cmd2instr(Cmd *cmd);
+InstrList *cmdlist2instr(CmdList *cmdlist);
+
 int currLabel;
 
 InstrList *expr2instr(Expr *expr)
@@ -48,7 +57,7 @@ InstrList *expr2instr(Expr *expr)
 }
 
 InstrList *boolexpr2instr(BoolExpr* boolexpr){
-
+  return NULL;
 }
 
 InstrList *atrib2instr(Attrib *atrib)
@@ -72,6 +81,8 @@ InstrList *atrib2instr(Attrib *atrib)
     result = mk_instrlist(no, NULL);
   }
 
+  if(!atrib->value) return result;
+
   InstrList *node = expr2instr(atrib->value);
   instrlist_append(result, node);
 
@@ -81,6 +92,45 @@ InstrList *atrib2instr(Attrib *atrib)
 }
 
 InstrList *if2instr(If* ifcmd){
+  if(ifcmd->type == IFTYPE){
+    int lbl_if_end = currLabel;currLabel++;
+
+    InstrList *res = boolexpr2instr(ifcmd->boolexpr);
+    Instr *no = mk_instr_fjp(lbl_if_end);
+    instrlist_append_instr(res,no);
+
+    InstrList *tmp = cmdlist2instr(ifcmd->cmdlist);
+    no = mk_instr_lbl(lbl_if_end);
+    instrlist_append_instr(tmp,no);
+    instrlist_append(res,tmp);
+
+    return res;
+  }
+  
+  int lbl_else_start = currLabel;currLabel++;
+  int lbl_else_end = currLabel;currLabel++;
+
+  InstrList *res = boolexpr2instr(ifcmd->boolexpr);
+  Instr *no = mk_instr_fjp(lbl_else_start);
+  instrlist_append_instr(res,no);
+
+  InstrList *tmp = cmdlist2instr(ifcmd->cmdlist);
+
+  no = mk_instr_ujp(lbl_else_end);
+  instrlist_append_instr(tmp,no);
+
+  no = mk_instr_lbl(lbl_else_start);
+  instrlist_append_instr(tmp,no);
+
+  instrlist_append(res,tmp);
+
+  tmp = cmdlist2instr(ifcmd->cmdlist_pos);
+  
+  no = mk_instr_lbl(lbl_else_end);
+  instrlist_append_instr(tmp,no);
+
+  instrlist_append(res,tmp);
+  return res;
 
 }
 
@@ -114,7 +164,7 @@ InstrList *cmdlist2instr(CmdList *cmdlist)
 }
 
 InstrList *function2instr(Function *fun){
-  Instr *instr = mk_instr_lbl(fun->name);
+  Instr *instr = mk_instr_lbl(currLabel++);
   InstrList *next = cmdlist2instr(fun->cmdlist);
   InstrList *res = mk_instrlist(instr,next);
 

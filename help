@@ -13,7 +13,7 @@ OU
 (0) BoolExpr
 [E_Bool]
     expr2list
-    cmp on equal to 0 (colocar 0 na stack, e chamar bges acho)
+    cmp on not equal to 0 (colocar 0 na stack, e chamar bges acho)
 [E_BoolOP]
     expr2list
     expr2list
