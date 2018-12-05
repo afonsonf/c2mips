@@ -1,1 +1,48 @@
-adicionar not a boolexpr
+(1) if(){
+
+}
+
+OU
+
+(2) if(){
+
+} else {
+
+}
+
+(0) BoolExpr
+[E_Bool]
+    expr2list
+    cmp on equal to 0 (colocar 0 na stack, e chamar bges acho)
+[E_BoolOP]
+    expr2list
+    expr2list
+    == cmp on eq
+    >= cmp on gt
+    (...)
+
+(1) IF
+    bool
+    j if false L1
+    cmdList2instr
+L1
+
+(2) If then Else
+    bool
+    j if false L1
+    cmdList2instr
+    j L2
+L1
+    cmdList2instr (pos)
+    //j L2
+L2
+
+(3) While
+L1
+    bool
+    j if false L2
+    cmdList2instr
+    j L1
+L2
+
+
