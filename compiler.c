@@ -47,6 +47,10 @@ InstrList *expr2instr(Expr *expr)
   return NULL;
 }
 
+InstrList *boolexpr2instr(BoolExpr* boolexpr){
+
+}
+
 InstrList *atrib2instr(Attrib *atrib)
 {
   InstrList *decl = NULL;
@@ -74,6 +78,10 @@ InstrList *atrib2instr(Attrib *atrib)
   no = mk_instr(E_STO);
   instrlist_append_instr(result, no);
   return result;
+}
+
+InstrList *if2instr(If* ifcmd){
+
 }
 
 InstrList *cmd2instr(Cmd *cmd)
