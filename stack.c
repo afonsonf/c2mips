@@ -123,19 +123,19 @@ void print_Instr(Instr* instr){
       printf("EQU\n");
       break;
     case E_GEQ:
-      printf("\n");
+      printf("GEQ\n");
       break;
     case E_GES:
-      printf("\n");
+      printf("GES\n");
       break;
     case E_LEQ:
-      printf("\n");
+      printf("LEQ\n");
       break;
     case E_LES:
-      printf("\n");
+      printf("LES\n");
       break;
     case E_NEQ:
-      printf("\n");
+      printf("NEQ\n");
       break;
     case E_IOR:
       printf("\n");
@@ -147,13 +147,13 @@ void print_Instr(Instr* instr){
       printf("\n");
       break;
     case E_FJP:
-      printf("\n");
+      printf("FJP L%d\n",instr->attr.num);
       break;
     case E_UJP:
-      printf("\n");
+      printf("UJP L%d\n",instr->attr.num);
       break;
     case E_LBL:
-      printf("L %d\n",instr->attr.num);
+      printf("L%d\n",instr->attr.num);
       break;
     case E_DCL_VAR:
       printf("%s\n",instr->attr.lbl);

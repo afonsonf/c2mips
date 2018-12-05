@@ -53,7 +53,6 @@ InstrList *expr2instr(Expr *expr)
 
     return instrlist;
   }
-  return NULL;
 }
 
 InstrList *boolexpr2instr(BoolExpr* boolexpr){
