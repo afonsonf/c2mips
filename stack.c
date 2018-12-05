@@ -23,10 +23,10 @@ Instr* mk_instr_lda(char* var){
   return node;
 }
 
-Instr* mk_instr_lbl(char *lbl){
+Instr* mk_instr_lbl(int lbl){
   Instr *node = (Instr*) malloc(sizeof(Instr));
   node->type = E_LBL;
-  node->attr.lbl = lbl;
+  node->attr.num = lbl;
   return node;
 }
 
