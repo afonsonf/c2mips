@@ -1,0 +1,5 @@
+	.data
+a:	.space 4
+
+	.text
+

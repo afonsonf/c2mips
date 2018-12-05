@@ -269,21 +269,37 @@ InstrList *function2instr(Function *fun){
 void printMips(InstrList *instrlist)
 {
   InstrList* tmp = instrlist;
+  printf("\t.data\n");
+
+  while(tmp){
+    if(tmp->node->type != E_DCL_VAR){
+      tmp = tmp->next;
+      continue;
+    }
+
+    printf("%s:\t.space 4\n",tmp->node->attr.var);
+
+    tmp = tmp->next;
+  }
+  printf("\n");
+
+  printf("\t.text\n\n");
+  tmp = instrlist;
   while (tmp)
   {
     switch (tmp->node->type){
-    case E_LDC:
+      case E_LDC:
      
-      break;
-    case E_ADI:
+        break;
+      case E_ADI:
      
-      break;
-    case E_MPI:
+        break;
+      case E_MPI:
       
-      break;
-    case E_SBI:
+        break;
+      case E_SBI:
       
-      break;
+        break;
     }
 
     tmp = tmp->next;
@@ -314,12 +330,14 @@ int main(int argc, char **argv)
     close(fdout);
 
     print_InstrList(res);
+    fflush(stdout);
 
     fdout = open("out.mips", O_CREAT | O_TRUNC | O_RDWR, S_IRUSR | S_IWUSR);
     dup2(fdout, STDOUT_FILENO);
     close(fdout);
 
-    //printMips
+    printMips(res);
+    fflush(stdout);
   }
   return 0;
 }
