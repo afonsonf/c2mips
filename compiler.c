@@ -174,7 +174,7 @@ InstrList *cmd2instr(Cmd *cmd)
   case E_Attrib:
     return atrib2instr(cmd->attr.cmdattr);
   case E_If:
-  //return if2instr(cmd->attr.cmdif);
+    return if2instr(cmd->attr.cmdif);
   case E_While:
   //return while2instr(cmd->attr.cmdwhile);
   case E_Printf:
