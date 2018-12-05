@@ -167,6 +167,21 @@ InstrList *if2instr(If* ifcmd){
 
 }
 
+InstrList *while2instr(cmdwhile *whilecmd){
+  int while_start = currLabel;
+  currLabel++;
+  int while_end = currLabel;
+  currLabel++;
+
+  Instr *no = mk_instr_lbl(while_start);
+  InstrList *result = mk_instrlist(no,NULL);
+  InstrList *tmp = boolexpr2instr(whilecmd->boolexpr);
+  instrlist_append(result,tmp);
+  no = mk_instr_fjp(while_end);
+  instrlist_append_instr(result,no);
+
+}
+
 InstrList *cmd2instr(Cmd *cmd)
 {
   switch (cmd->type)
