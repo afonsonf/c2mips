@@ -56,7 +56,41 @@ InstrList *expr2instr(Expr *expr)
 }
 
 InstrList *boolexpr2instr(BoolExpr* boolexpr){
-  return NULL;
+  if(boolexpr->kind == E_Bool){
+    InstrList *node;
+    node = expr2instr(boolexpr->attr.value);
+    Instr* no = mk_instr_ldc(0);
+    instrlist_append_instr(node,no);
+    no = mk_instr(E_NEQ);
+    instrlist_append_instr(node,no);
+    return node;
+  }else if(boolexpr->kind == E_BoolOp){
+    Instr* opr;
+    switch (boolexpr->attr.op.operator) {
+      case EQUALS:
+        opr = mk_instr(E_EQU);
+        break;
+      case DIFF:
+        opr = mk_instr(E_NEQ);
+        break;
+      case LESS:
+        opr = mk_instr(E_LES);
+        break;
+      case GREAT:
+        opr = mk_instr(E_GES);
+        break;
+      case LESSEQUAL:
+        opr = mk_instr(E_LEQ);
+        break;
+      case GREATEQUAL:
+        opr = mk_instr(E_GEQ);
+        break;
+    }
+    InstrList* result = expr2instr(boolexpr->attr.op.left);
+    instrlist_append(result, expr2instr(boolexpr->attr.op.right));
+    instrlist_append_instr(result, opr);
+    return result;
+  }
 }
 
 InstrList *atrib2instr(Attrib *atrib)
@@ -105,7 +139,7 @@ InstrList *if2instr(If* ifcmd){
 
     return res;
   }
-  
+
   int lbl_else_start = currLabel;currLabel++;
   int lbl_else_end = currLabel;currLabel++;
 
@@ -124,7 +158,7 @@ InstrList *if2instr(If* ifcmd){
   instrlist_append(res,tmp);
 
   tmp = cmdlist2instr(ifcmd->cmdlist_pos);
-  
+
   no = mk_instr_lbl(lbl_else_end);
   instrlist_append_instr(tmp,no);
 

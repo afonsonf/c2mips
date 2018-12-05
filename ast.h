@@ -1,4 +1,3 @@
-
 // AST definitions
 #ifndef __ast_h__
 #define __ast_h__
