@@ -29,6 +29,9 @@ typedef enum {
     E_FJP, //false jump (b,-) Q
     E_UJP, //unconditional jump (-,-) Q
 
+    E_READ, //read
+    E_WRT, //write
+
     E_LBL, //label
     E_DCL_VAR //declaration of var
 } instrtype;
@@ -56,6 +59,9 @@ Instr* mk_instr_lda(char *var);
 
 Instr* mk_instr_ujp(int lbl);
 Instr* mk_instr_fjp(int lbl);
+
+Instr* mk_instr_read(char *var);
+Instr* mk_instr_wrt(char *var);
 
 Instr* mk_instr_lbl(int lbl);
 Instr* mk_instr_dcl_var(char *var);

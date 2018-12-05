@@ -1,4 +1,9 @@
 #include <stdio.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
 #include "parser.h"
 #include "stack.h"
 
@@ -183,6 +188,42 @@ InstrList *while2instr(While *whilecmd){
   return result;
 }
 
+InstrList *scanf2instr(Scanf *cmd){
+  if(!cmd->varlist) return NULL;
+
+  VarList* varlist = cmd->varlist;
+
+  Instr* no = mk_instr_read(varlist->var->name);
+  InstrList* res = mk_instrlist(no,NULL);
+
+  varlist = varlist->next;
+  while(varlist){
+    no = mk_instr_read(varlist->var->name);
+    instrlist_append_instr(res,no);
+    varlist = varlist->next;
+  }
+
+  return res;
+}
+
+InstrList *printf2instr(Printf *cmd){
+  if(!cmd->varlist) return NULL;
+
+  VarList* varlist = cmd->varlist;
+
+  Instr* no = mk_instr_wrt(varlist->var->name);
+  InstrList* res = mk_instrlist(no,NULL);
+
+  varlist = varlist->next;
+  while(varlist){
+    no = mk_instr_wrt(varlist->var->name);
+    instrlist_append_instr(res,no);
+    varlist = varlist->next;
+  }
+
+  return res;
+}
+
 InstrList *cmd2instr(Cmd *cmd)
 {
   switch (cmd->type)
@@ -194,9 +235,9 @@ InstrList *cmd2instr(Cmd *cmd)
   case E_While:
   //return while2instr(cmd->attr.cmdwhile);
   case E_Printf:
-  //return printf2instr(cmd->attr.cmdprintf);
+    return printf2instr(cmd->attr.cmdprintf);
   case E_Scanf:
-    //return scanf2instr(cmd->attr.cmdscanf);
+    return scanf2instr(cmd->attr.cmdscanf);
     return NULL;
   }
   return NULL;
@@ -206,9 +247,13 @@ InstrList *cmdlist2instr(CmdList *cmdlist)
 {
   if (!cmdlist)
     return NULL;
+
   InstrList *next = cmdlist2instr(cmdlist->next);
   InstrList *node = cmd2instr(cmdlist->value);
-  instrlist_append(node, next);
+
+  if(node) instrlist_append(node, next);
+  else return next;
+
   return node;
 }
 
@@ -220,40 +265,31 @@ InstrList *function2instr(Function *fun){
   return res;
 }
 
-/*
+
 void printMips(InstrList *instrlist)
 {
-  if (instrlist)
+  InstrList* tmp = instrlist;
+  while (tmp)
   {
-    switch (instrlist->node->type)
-    {
+    switch (tmp->node->type){
     case E_LDC:
-      printf("addi $t0 $0 %d\n", instrlist->node->attr.num);
-      printf("sw $t0, 4($sp)\n");
-      printf("addi $sp -4\n");
+     
       break;
     case E_ADI:
-      printf("add $t0 0($sp) 4($sp)\n");
-      printf("addi $sp 8\n");
-      printf("sw $t0, 4($sp)\n");
-      printf("addi $sp -4\n");
+     
       break;
     case E_MPI:
-      printf("mult 0($sp) 4($sp)\n");
-      printf("addi $sp 8\n");
-      printf("sw $hi, 4($sp)\n");
-      printf("addi $sp -4\n");
+      
       break;
     case E_SBI:
-      printf("subb $t0 0($sp) 4($sp)\n");
-      printf("addi $sp 8\n");
-      printf("sw $t0, 4($sp)\n");
-      printf("addi $sp -4\n");
+      
       break;
     }
+
+    tmp = tmp->next;
   }
   return;
-}*/
+}
 
 int main(int argc, char **argv)
 {
@@ -273,7 +309,17 @@ int main(int argc, char **argv)
     currLabel = 0;
     InstrList *res = function2instr(root);
 
+    int fdout = open("out.pcode", O_CREAT | O_TRUNC | O_RDWR, S_IRUSR | S_IWUSR);
+    dup2(fdout, STDOUT_FILENO);
+    close(fdout);
+
     print_InstrList(res);
+
+    fdout = open("out.mips", O_CREAT | O_TRUNC | O_RDWR, S_IRUSR | S_IWUSR);
+    dup2(fdout, STDOUT_FILENO);
+    close(fdout);
+
+    //printMips
   }
   return 0;
 }

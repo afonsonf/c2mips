@@ -68,13 +68,6 @@ struct _While{
   struct _CmdList *cmdlist;
 };
 
-struct _For{
-  struct _Attrib *init;
-  struct _BoolExpr *boolexpr;
-  struct _Attrib *inc;
-  struct _CmdList *cmdlist;
-};
-
 struct _Printf{
   char *s;
   struct _VarList *varlist;

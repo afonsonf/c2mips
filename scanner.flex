@@ -64,10 +64,7 @@ int yyline = 1;
     return VARNAME;
 }
 
-\&[a-z][a-zA-z0-9]* {
-    yylval.varname = strdup(yytext);
-    return RVARNAME;
-}
+"&" { return ECOM; }
 
 .  { yyerror("unexpected character"); }
 %%

@@ -7,6 +7,7 @@
   CLOSEPAR
   OPENCHAV
   CLOSECHAV
+  ECOM
 
 %token
   MAIN
@@ -86,6 +87,7 @@
 %type <varvalue> VARTYPE
 %type <varvalue> VARNOTYPE
 %type <varlistvalue> varlist
+%type <varlistvalue> varlistE
 
 %type <exprValue> expr
 %type <boolValue> boolexpr
@@ -202,7 +204,7 @@ printf:
 ;
 
 scanf:
-  SCANF OPENPAR STRING COMMA varlist CLOSEPAR SEMICOLON {
+  SCANF OPENPAR STRING COMMA varlistE CLOSEPAR SEMICOLON {
     $$ = ast_scanf($3, $5);
   }
   |
@@ -304,6 +306,16 @@ varlist:
   |
   VARNOTYPE{
     $$ = ast_varlist($1, NULL);
+  }
+;
+
+varlistE:
+  ECOM VARNOTYPE COMMA varlist {
+    $$ = ast_varlist($2,$4);
+  }
+  |
+  ECOM VARNOTYPE{
+    $$ = ast_varlist($2, NULL);
   }
 ;
 
