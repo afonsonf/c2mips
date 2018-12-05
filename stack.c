@@ -23,6 +23,20 @@ Instr* mk_instr_lda(char* var){
   return node;
 }
 
+Instr* mk_instr_ujp(int lbl){
+  Instr *node = (Instr*) malloc(sizeof(Instr));
+  node->type = E_UJP;
+  node->attr.num = lbl;
+  return node;
+}
+
+Instr* mk_instr_fjp(int lbl){
+  Instr *node = (Instr*) malloc(sizeof(Instr));
+  node->type = E_FJP;
+  node->attr.num = lbl;
+  return node;
+}
+
 Instr* mk_instr_lbl(int lbl){
   Instr *node = (Instr*) malloc(sizeof(Instr));
   node->type = E_LBL;
@@ -76,6 +90,7 @@ void instrlist_append_instr(InstrList* instrlist, Instr* instr){
 }
 
 void print_Instr(Instr* instr){
+  //if(!instr) return;
   switch(instr->type){
     case E_LDC:
       printf("LDC %d\n",instr->attr.num);
@@ -138,12 +153,11 @@ void print_Instr(Instr* instr){
       printf("\n");
       break;
     case E_LBL:
-      printf("%s\n",instr->attr.lbl);
+      printf("L %d\n",instr->attr.num);
       break;
     case E_DCL_VAR:
       printf("%s\n",instr->attr.lbl);
       break;
-
   }
 }
 
