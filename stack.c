@@ -40,14 +40,14 @@ Instr* mk_instr_fjp(int lbl){
 Instr* mk_instr_read(char *var){
   Instr *node = (Instr*) malloc(sizeof(Instr));
   node->type = E_READ;
-  node->attr.lbl = var;
+  node->attr.var = var;
   return node;
 }
 
 Instr* mk_instr_wrt(char *var){
   Instr *node = (Instr*) malloc(sizeof(Instr));
   node->type = E_WRT;
-  node->attr.lbl = var;
+  node->attr.var = var;
   return node;
 }
 
@@ -61,7 +61,7 @@ Instr* mk_instr_lbl(int lbl){
 Instr* mk_instr_dcl_var(char *var){
   Instr *node = (Instr*) malloc(sizeof(Instr));
   node->type = E_DCL_VAR;
-  node->attr.lbl = var;
+  node->attr.var = var;
   return node;
 }
 
@@ -157,13 +157,13 @@ void print_Instr(Instr* instr){
       printf("L%d\n",instr->attr.num);
       break;
     case E_DCL_VAR:
-      printf("%s\n",instr->attr.lbl);
+      printf("%s\n",instr->attr.var);
       break;
     case E_READ:
       printf("READ %s\n",instr->attr.var);
       break;
     case E_WRT:
-      printf("WRT\n");
+      printf("WRT %s\n", instr->attr.var);
       break;
   }
 }

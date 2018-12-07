@@ -1,5 +1,44 @@
 	.data
 a:	.space 4
+b:	.space 4
 
 	.text
 
+L0:
+	addi $t1, $0, 3
+	sw $t1, 0($sp)
+	addi $sp, $sp, -4
+	lw $t1, 4($sp)
+	addi $sp, $sp, 4
+	sw $t1, a
+	addi $t1, $0, 5
+	sw $t1, 0($sp)
+	addi $sp, $sp, -4
+	lw $t1, a
+	sw $t1, 0($sp)
+	addi $sp, $sp, -4
+	lw $t1, 4($sp)
+	addi $sp, $sp, 4
+	lw $t2, 4($sp)
+	addi $sp, $sp, 4
+add $t2, $t1, $t2
+	sw $t2, 0($sp)
+	addi $sp, $sp, -4
+	lw $t1, 4($sp)
+	addi $sp, $sp, 4
+	sw $t1, b
+	lw $a0, a
+	addi $v0, $0, 1
+	Syscall
+	addi $a0, $0, '\n'
+	addi $v0, $0, 11
+	Syscall
+	lw $a0, b
+	addi $v0, $0, 1
+	Syscall
+	addi $a0, $0, '\n'
+	addi $v0, $0, 11
+	Syscall
+
+	addi $v0, $0, 10
+	Syscall

@@ -257,6 +257,25 @@ InstrList *function2instr(Function *fun){
   return res;
 }
 
+void print_syscall(int number){
+  printf("\taddi $v0, $0, %d\n",number);
+  printf("\tSyscall\n");
+}
+
+void print_enter(){
+  printf("\taddi $a0, $0, '\\n'\n");
+  print_syscall(11);
+}
+
+void print_loadfromsp(char *reg){
+  printf("\tlw %s, 4($sp)\n",reg);
+  printf("\taddi $sp, $sp, 4\n");
+}
+
+void print_storeinsp(char *reg){
+  printf("\tsw %s, 0($sp)\n",reg);
+  printf("\taddi $sp, $sp, -4\n");
+}
 
 void printMips(InstrList *instrlist)
 {
@@ -282,21 +301,21 @@ void printMips(InstrList *instrlist)
     switch (tmp->node->type){
       case E_LDC:
         printf("\taddi $t1, $0, %d\n",tmp->node->attr.num);
-        printf("\tsw $t1, 0($sp)\n");
-        printf("\taddi $sp, $sp, -4\n");
+        print_storeinsp("$t1");
         break;
       case E_LOD:
         printf("\tlw $t1, %s\n",tmp->node->attr.var);
-        printf("\tsw $t1, 0($sp)\n");
-        printf("\taddi $sp, $sp, -4\n");
+        print_storeinsp("$t1");
         break;
       case E_STO:
-        printf("\tlw $t1, 4($sp)\n");
-        printf("\taddi $sp, $sp, 4\n");
+        print_loadfromsp("$t1");
         printf("\tsw $t1, %s\n",tmp->node->attr.var);
         break;
       case E_ADI:
-      
+        print_loadfromsp("$t1");
+        print_loadfromsp("$t2");
+        printf("add $t2, $t1, $t2\n");
+        print_storeinsp("$t2");
         break;
       case E_SBI:
       
@@ -308,7 +327,7 @@ void printMips(InstrList *instrlist)
       
         break;
       case E_DVI:
-      
+        
         break;
       case E_EQU:
       
@@ -338,18 +357,20 @@ void printMips(InstrList *instrlist)
       
         break;
       case E_WRT:
-        //printf()
+        printf("\tlw $a0, %s\n",tmp->node->attr.var);
+        print_syscall(1);
+        print_enter();
         break;
       case E_LBL:
-      
-        break;
-      case E_DCL_VAR:
-      
+        printf("L%d:\n",tmp->node->attr.num);
         break;
     }
 
     tmp = tmp->next;
   }
+
+  printf("\n");
+  print_syscall(10);
   return;
 }
 

@@ -1,12 +1,6 @@
 int main(){
     int a;
-    a = 2+3;
-    
-    if(3==2){
-        a = a+1;
-    } else {
-        a = a - 1;
-    }
-        
-    scanf("",&a);
+    a = 3;
+    int b = 5 + a;
+    printf("",a,b);
 }

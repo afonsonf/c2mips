@@ -20,7 +20,7 @@ typedef enum {
     E_LEQ, //compare on less than or equal (xx,b) Q
     E_LES, //compare on less than (xx,b) Q
     E_NEQ, //compare on not equal (xx,b) Q
-    
+
     E_FJP, //false jump (b,-) Q
     E_UJP, //unconditional jump (-,-) Q
 
@@ -36,7 +36,6 @@ struct _Instr{
     union {
         int num;
         char* var;
-        char* lbl;
     } attr;
 };
 
