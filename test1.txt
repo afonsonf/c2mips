@@ -1,6 +1,13 @@
 int main(){
     int a;
-    a = 3;
-    int b = 5 + a;
-    printf("",a,b);
+    a = 5;
+    int b = 5;
+    printf("",b);
+    if(a == b){
+        b = b + 1;
+    }
+    else {
+        b = b - 1;
+    }    
+    printf("",b);
 }

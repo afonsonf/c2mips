@@ -277,6 +277,21 @@ void print_storeinsp(char *reg){
   printf("\taddi $sp, $sp, -4\n");
 }
 
+void print_comparation(char *type){
+  int comp0 = currLabel; currLabel++;
+  int compf = currLabel; currLabel++;
+  print_loadfromsp("$t1");
+  print_loadfromsp("$t2");
+  printf("\t%s $t1, $t2, L%d\n",type,comp0);
+  printf("\taddi $t1, $0, 0\n");
+  print_storeinsp("$t1");
+  printf("\tj L%d\n",compf);
+  printf("L%d:\n",comp0);
+  printf("\taddi $t1, $0, 1\n");
+  print_storeinsp("$t1");
+  printf("L%d:\n",compf);
+}
+
 void printMips(InstrList *instrlist)
 {
   InstrList* tmp = instrlist;
@@ -330,7 +345,7 @@ void printMips(InstrList *instrlist)
         
         break;
       case E_EQU:
-      
+        print_comparation("beq");
         break;
       case E_GEQ:
       
@@ -348,10 +363,11 @@ void printMips(InstrList *instrlist)
       
         break;
       case E_FJP:
-      
+        print_loadfromsp("$t1");
+        printf("\tbeq $t1, $0, L%d\n",tmp->node->attr.num);
         break;
       case E_UJP:
-      
+        printf("\tj L%d\n",tmp->node->attr.num);
         break;
       case E_READ:
       

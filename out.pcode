@@ -1,11 +1,24 @@
 L0
 a
-LDC 3
+LDC 5
 STO a
 b
 LDC 5
+STO b
+WRT b
 LOD a
+LOD b
+EQU
+FJP L1
+LOD b
+LDC 1
 ADI
 STO b
-WRT a
+UJP L2
+L1
+LOD b
+LDC 1
+SBI
+STO b
+L2
 WRT b
