@@ -333,7 +333,10 @@ void printMips(InstrList *instrlist)
         print_storeinsp("$t2");
         break;
       case E_SBI:
-      
+        print_loadfromsp("$t1");
+        print_loadfromsp("$t2");
+        printf("sub $t2, $t2, $t1\n");
+        print_storeinsp("$t2");
         break;
       case E_MOD:
       

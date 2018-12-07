@@ -1,7 +1,7 @@
 int main(){
     int a;
-    a = 5;
-    int b = 5;
+    a = 3;
+    int b = 5 + a;
     printf("",b);
     if(a == b){
         b = b + 1;
