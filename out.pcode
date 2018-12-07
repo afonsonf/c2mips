@@ -3,24 +3,17 @@ a
 LDC 3
 STO a
 b
-LDC 5
-LOD a
-ADI
+LDC 0
 STO b
-WRT b
-LOD a
-LOD b
-EQU
-FJP L1
-LOD b
-LDC 1
-ADI
-STO b
-UJP L2
 L1
+LOD a
+LOD b
+NEQ
+FJP L2
+WRT a
 LOD b
 LDC 1
-SBI
+ADI
 STO b
+UJP L1
 L2
-WRT b

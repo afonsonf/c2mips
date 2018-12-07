@@ -58,6 +58,7 @@ InstrList *expr2instr(Expr *expr)
 
     return instrlist;
   }
+  return NULL;
 }
 
 InstrList *boolexpr2instr(BoolExpr* boolexpr){
@@ -96,6 +97,7 @@ InstrList *boolexpr2instr(BoolExpr* boolexpr){
     instrlist_append_instr(result, opr);
     return result;
   }
+  return NULL;
 }
 
 InstrList *atrib2instr(Attrib *atrib)
@@ -174,8 +176,18 @@ InstrList *while2instr(While *whilecmd){
   InstrList *result = mk_instrlist(no,NULL);
   InstrList *tmp = boolexpr2instr(whilecmd->boolexpr);
   instrlist_append(result,tmp);
+
   no = mk_instr_fjp(while_end);
   instrlist_append_instr(result,no);
+
+  tmp = cmdlist2instr(whilecmd->cmdlist);
+  instrlist_append(result,tmp);
+  no = mk_instr_ujp(while_start);
+  instrlist_append_instr(result,no);
+
+  no = mk_instr_lbl(while_end);
+  instrlist_append_instr(result,no);
+
 
   return result;
 }
@@ -225,12 +237,11 @@ InstrList *cmd2instr(Cmd *cmd)
   case E_If:
     return if2instr(cmd->attr.cmdif);
   case E_While:
-  //return while2instr(cmd->attr.cmdwhile);
+    return while2instr(cmd->attr.cmdwhile);
   case E_Printf:
     return printf2instr(cmd->attr.cmdprintf);
   case E_Scanf:
     return scanf2instr(cmd->attr.cmdscanf);
-    return NULL;
   }
   return NULL;
 }
@@ -339,31 +350,38 @@ void printMips(InstrList *instrlist)
         print_storeinsp("$t2");
         break;
       case E_MOD:
-      
+
         break;
-      case E_MPI:
-      
+      case E_MPI: //fon fiz esse, se precisar corrige :D
+        print_loadfromsp("$t1");
+        print_loadfromsp("$t2");
+        printf("mul $t2, $t1, $t2\n");
+        print_storeinsp("$t2");
         break;
-      case E_DVI:
-        
+      case E_DVI: //nao sei o div so tem 2 argumentos e nao deixa claro onde guarda.
+        print_loadfromsp("$t1");
+        print_loadfromsp("$t2");
+        printf("div $t1, $t2\n");
+        //print_storeinsp("$t2");
         break;
       case E_EQU:
         print_comparation("beq");
         break;
       case E_GEQ:
-      
+        //nao tem, fazer subtração
+        //print_comparation("beq");
         break;
       case E_GES:
-      
+
         break;
       case E_LEQ:
-      
+
         break;
       case E_LES:
-      
+
         break;
       case E_NEQ:
-      
+        print_comparation("bne");
         break;
       case E_FJP:
         print_loadfromsp("$t1");
@@ -372,8 +390,10 @@ void printMips(InstrList *instrlist)
       case E_UJP:
         printf("\tj L%d\n",tmp->node->attr.num);
         break;
-      case E_READ:
-      
+      case E_READ: //scanf eh syscall do 5 em mips coloca no v0
+        printf("li $v0 5\n");
+        printf("syscall\n");
+        //dar move do v0 para algum lugar, seja na pilha na variavel em si do scanf
         break;
       case E_WRT:
         printf("\tlw $a0, %s\n",tmp->node->attr.var);
@@ -383,6 +403,8 @@ void printMips(InstrList *instrlist)
       case E_LBL:
         printf("L%d:\n",tmp->node->attr.num);
         break;
+      default :
+      break;
     }
 
     tmp = tmp->next;

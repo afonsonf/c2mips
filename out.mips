@@ -11,28 +11,13 @@ L0:
 	lw $t1, 4($sp)
 	addi $sp, $sp, 4
 	sw $t1, a
-	addi $t1, $0, 5
+	addi $t1, $0, 0
 	sw $t1, 0($sp)
-	addi $sp, $sp, -4
-	lw $t1, a
-	sw $t1, 0($sp)
-	addi $sp, $sp, -4
-	lw $t1, 4($sp)
-	addi $sp, $sp, 4
-	lw $t2, 4($sp)
-	addi $sp, $sp, 4
-add $t2, $t1, $t2
-	sw $t2, 0($sp)
 	addi $sp, $sp, -4
 	lw $t1, 4($sp)
 	addi $sp, $sp, 4
 	sw $t1, b
-	lw $a0, b
-	addi $v0, $0, 1
-	Syscall
-	addi $a0, $0, '\n'
-	addi $v0, $0, 11
-	Syscall
+L1:
 	lw $t1, a
 	sw $t1, 0($sp)
 	addi $sp, $sp, -4
@@ -43,7 +28,7 @@ add $t2, $t1, $t2
 	addi $sp, $sp, 4
 	lw $t2, 4($sp)
 	addi $sp, $sp, 4
-	beq $t1, $t2, L3
+	bne $t1, $t2, L3
 	addi $t1, $0, 0
 	sw $t1, 0($sp)
 	addi $sp, $sp, -4
@@ -55,7 +40,13 @@ L3:
 L4:
 	lw $t1, 4($sp)
 	addi $sp, $sp, 4
-	beq $t1, $0, L1
+	beq $t1, $0, L2
+	lw $a0, a
+	addi $v0, $0, 1
+	Syscall
+	addi $a0, $0, '\n'
+	addi $v0, $0, 11
+	Syscall
 	lw $t1, b
 	sw $t1, 0($sp)
 	addi $sp, $sp, -4
@@ -72,31 +63,8 @@ add $t2, $t1, $t2
 	lw $t1, 4($sp)
 	addi $sp, $sp, 4
 	sw $t1, b
-	j L2
-L1:
-	lw $t1, b
-	sw $t1, 0($sp)
-	addi $sp, $sp, -4
-	addi $t1, $0, 1
-	sw $t1, 0($sp)
-	addi $sp, $sp, -4
-	lw $t1, 4($sp)
-	addi $sp, $sp, 4
-	lw $t2, 4($sp)
-	addi $sp, $sp, 4
-sub $t2, $t2, $t1
-	sw $t2, 0($sp)
-	addi $sp, $sp, -4
-	lw $t1, 4($sp)
-	addi $sp, $sp, 4
-	sw $t1, b
+	j L1
 L2:
-	lw $a0, b
-	addi $v0, $0, 1
-	Syscall
-	addi $a0, $0, '\n'
-	addi $v0, $0, 11
-	Syscall
 
 	addi $v0, $0, 10
 	Syscall

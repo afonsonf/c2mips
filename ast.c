@@ -125,13 +125,6 @@ Cmd* ast_cmd_if(If *cmdif){
   return node;
 }
 
-Cmd* ast_cmd_for(For *cmdfor){
-  Cmd* node = (Cmd*) malloc(sizeof(Cmd));
-  node->type = E_For;
-  node->attr.cmdfor = cmdfor;
-  return node;
-}
-
 Cmd* ast_cmd_while(While *cmdwhile){
   Cmd* node = (Cmd*) malloc(sizeof(Cmd));
   node->type = E_While;

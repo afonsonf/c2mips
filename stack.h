@@ -1,6 +1,6 @@
 // Stack definitions
 #ifndef __stack_h__
-#define __syack_h__
+#define __stack_h__
 
 typedef enum {
     E_LDC, //load constant (-,x) Q

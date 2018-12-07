@@ -82,7 +82,6 @@ struct _Cmd {
   enum {
     E_Attrib,
     E_If,
-    E_For,
     E_While,
     E_Printf,
     E_Scanf
@@ -90,7 +89,6 @@ struct _Cmd {
   union {
     struct _Attrib *cmdattr;
     struct _If *cmdif;
-    struct _For *cmdfor;
     struct _While *cmdwhile;
     struct _Printf *cmdprintf;
     struct _Scanf *cmdscanf;
@@ -114,7 +112,6 @@ typedef struct _BoolExpr BoolExpr; // Convenience typedef
 
 typedef struct _Attrib Attrib;
 typedef struct _If If;
-typedef struct _For For;
 typedef struct _While While;
 typedef struct _Printf Printf;
 typedef struct _Scanf Scanf;
@@ -144,7 +141,6 @@ Scanf* ast_scanf(char* s, VarList *varlist);
 
 Cmd* ast_cmd_attr(Attrib *cmdattrib);
 Cmd* ast_cmd_if(If *cmdif);
-Cmd* ast_cmd_for(For *cmdfor);
 Cmd* ast_cmd_while(While *cmdwhile);
 Cmd* ast_cmd_printf(Printf *cmdprintf);
 Cmd* ast_cmd_scanf(Scanf *cmdscanf);
