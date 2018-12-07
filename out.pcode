@@ -1,26 +1,22 @@
 L0
 a
-LDA a
-LDA a
 LDC 2
 LDC 3
 ADI
-STO
+STO a
 LDC 3
 LDC 2
 EQU
 FJP L1
-LDA a
 LOD a
 LDC 1
 ADI
-STO
+STO a
 UJP L2
 L1
-LDA a
 LOD a
 LDC 1
 SBI
-STO
+STO a
 L2
 READ a

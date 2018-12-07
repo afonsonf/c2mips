@@ -100,32 +100,24 @@ InstrList *boolexpr2instr(BoolExpr* boolexpr){
 
 InstrList *atrib2instr(Attrib *atrib)
 {
-  InstrList *decl = NULL;
+  InstrList *result = NULL;
+
   if (atrib->var->type == VARINT)
   {
     Instr *tmp = mk_instr_dcl_var(atrib->var->name);
-    decl = mk_instrlist(tmp, NULL);
+    result = mk_instrlist(tmp,NULL);
   }
-
-  InstrList *result = NULL;
-  Instr *no = mk_instr_lda(atrib->var->name);
-  if (decl)
-  {
-    result = decl;
-    instrlist_append_instr(result, no);
-  }
-  else
-  {
-    result = mk_instrlist(no, NULL);
-  }
-
-  if(!atrib->value) return result;
+  if(!atrib->value)
+    return result;
 
   InstrList *node = expr2instr(atrib->value);
-  instrlist_append(result, node);
 
-  no = mk_instr(E_STO);
+  if(result == NULL) result = node;
+  else instrlist_append(result, node);
+
+  Instr *no = mk_instr_sto(atrib->var->name);
   instrlist_append_instr(result, no);
+
   return result;
 }
 

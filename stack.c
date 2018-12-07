@@ -16,9 +16,9 @@ Instr* mk_instr_lod(char* var){
   return node;
 }
 
-Instr* mk_instr_lda(char* var){
+Instr* mk_instr_sto(char* var){
   Instr *node = (Instr*) malloc(sizeof(Instr));
-  node->type = E_LDA;
+  node->type = E_STO;
   node->attr.var = var;
   return node;
 }
@@ -86,7 +86,7 @@ InstrList* instrlist_tail(InstrList* instrlist){
   return instrlist->next;
 }
 
-void instrlist_append(InstrList* instrlist1, InstrList* instrlist2){
+void instrlist_append(InstrList* instrlist1, InstrList* instrlist2){  
   InstrList *tmp = instrlist1;
 
   while(tmp->next) tmp = tmp->next;
@@ -111,11 +111,8 @@ void print_Instr(Instr* instr){
     case E_LOD:
       printf("LOD %s\n",instr->attr.var);
       break;
-    case E_LDA:
-      printf("LDA %s\n",instr->attr.var);
-      break;
     case E_STO:
-      printf("STO\n");
+      printf("STO %s\n",instr->attr.var);
       break;
     case E_ADI:
       printf("ADI\n");
