@@ -281,15 +281,69 @@ void printMips(InstrList *instrlist)
   {
     switch (tmp->node->type){
       case E_LDC:
-     
+        printf("\taddi $t1, $0, %d\n",tmp->node->attr.num);
+        printf("\tsw $t1, 0($sp)\n");
+        printf("\taddi $sp, $sp, -4\n");
+        break;
+      case E_LOD:
+        printf("\tlw $t1, %s\n",tmp->node->attr.var);
+        printf("\tsw $t1, 0($sp)\n");
+        printf("\taddi $sp, $sp, -4\n");
+        break;
+      case E_STO:
+        printf("\tlw $t1, 4($sp)\n");
+        printf("\taddi $sp, $sp, 4\n");
+        printf("\tsw $t1, %s\n",tmp->node->attr.var);
         break;
       case E_ADI:
-     
+      
+        break;
+      case E_SBI:
+      
+        break;
+      case E_MOD:
+      
         break;
       case E_MPI:
       
         break;
-      case E_SBI:
+      case E_DVI:
+      
+        break;
+      case E_EQU:
+      
+        break;
+      case E_GEQ:
+      
+        break;
+      case E_GES:
+      
+        break;
+      case E_LEQ:
+      
+        break;
+      case E_LES:
+      
+        break;
+      case E_NEQ:
+      
+        break;
+      case E_FJP:
+      
+        break;
+      case E_UJP:
+      
+        break;
+      case E_READ:
+      
+        break;
+      case E_WRT:
+        //printf()
+        break;
+      case E_LBL:
+      
+        break;
+      case E_DCL_VAR:
       
         break;
     }
