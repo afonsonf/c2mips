@@ -1,6 +1,6 @@
 L0
 a
-LDC 3
+LDC 5
 STO a
 b
 LDC 0
@@ -8,12 +8,9 @@ STO b
 L1
 LOD a
 LOD b
-NEQ
+GEQ
 FJP L2
-WRT a
-LOD b
-LDC 1
-ADI
-STO b
+READ b
+WRT b
 UJP L1
 L2

@@ -303,6 +303,22 @@ void print_comparation(char *type){
   printf("L%d:\n",compf);
 }
 
+void print_comparation_sub(char *type){
+  int comp0 = currLabel; currLabel++;
+  int compf = currLabel; currLabel++;
+  print_loadfromsp("$t1");
+  print_loadfromsp("$t2");
+  printf("\tsub $t2, $t2, $t1\n");
+  printf("\t%s $t2 L%d\n",type,comp0);
+  printf("\taddi $t1, $0, 0\n");
+  print_storeinsp("$t1");
+  printf("\tj L%d\n",compf);
+  printf("L%d:\n",comp0);
+  printf("\taddi $t1, $0, 1\n");
+  print_storeinsp("$t1");
+  printf("L%d:\n",compf);
+}
+
 void printMips(InstrList *instrlist)
 {
   InstrList* tmp = instrlist;
@@ -340,45 +356,50 @@ void printMips(InstrList *instrlist)
       case E_ADI:
         print_loadfromsp("$t1");
         print_loadfromsp("$t2");
-        printf("add $t2, $t1, $t2\n");
+        printf("\tadd $t2, $t1, $t2\n");
         print_storeinsp("$t2");
         break;
       case E_SBI:
         print_loadfromsp("$t1");
         print_loadfromsp("$t2");
-        printf("sub $t2, $t2, $t1\n");
+        printf("\tsub $t2, $t2, $t1\n");
         print_storeinsp("$t2");
         break;
       case E_MOD:
-
+        print_loadfromsp("$t1");
+        print_loadfromsp("$t2");
+        printf("\tdiv $t1, $t2\n");
+        printf("\tmfhi $t2\n");
+        print_storeinsp("$t2");
         break;
       case E_MPI: //fon fiz esse, se precisar corrige :D
         print_loadfromsp("$t1");
         print_loadfromsp("$t2");
-        printf("mul $t2, $t1, $t2\n");
+        printf("\tmult $t1, $t2\n");
+        printf("\tmflo $t2\n");
         print_storeinsp("$t2");
         break;
       case E_DVI: //nao sei o div so tem 2 argumentos e nao deixa claro onde guarda.
         print_loadfromsp("$t1");
         print_loadfromsp("$t2");
-        printf("div $t1, $t2\n");
-        //print_storeinsp("$t2");
+        printf("\tdiv $t1, $t2\n");
+        printf("\tmflo $t2\n");
+        print_storeinsp("$t2");
         break;
       case E_EQU:
         print_comparation("beq");
         break;
       case E_GEQ:
-        //nao tem, fazer subtração
-        //print_comparation("beq");
+        print_comparation_sub("bgez");
         break;
       case E_GES:
-
+        print_comparation_sub("bgtz");
         break;
       case E_LEQ:
-
+        print_comparation_sub("blez");
         break;
       case E_LES:
-
+        print_comparation_sub("bltz");
         break;
       case E_NEQ:
         print_comparation("bne");
@@ -391,9 +412,8 @@ void printMips(InstrList *instrlist)
         printf("\tj L%d\n",tmp->node->attr.num);
         break;
       case E_READ: //scanf eh syscall do 5 em mips coloca no v0
-        printf("li $v0 5\n");
-        printf("syscall\n");
-        //dar move do v0 para algum lugar, seja na pilha na variavel em si do scanf
+        print_syscall(5);
+        printf("\tsw $v0, %s\n",tmp->node->attr.var);
         break;
       case E_WRT:
         printf("\tlw $a0, %s\n",tmp->node->attr.var);
@@ -410,7 +430,6 @@ void printMips(InstrList *instrlist)
     tmp = tmp->next;
   }
 
-  printf("\n");
   print_syscall(10);
   return;
 }

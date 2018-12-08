@@ -1,13 +1,8 @@
 int main(){
-    int a;
-    a = 3;
-    int b = 5 + a;
-    printf("",b);
-    if(a == b){
-        b = b + 1;
+    int a=5;
+    int b = 0;
+    while(a>=b){
+        scanf("",&b);
+        printf("",b);
     }
-    else {
-        b = b - 1;
-    }    
-    printf("",b);
 }
