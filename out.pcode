@@ -1,35 +1,25 @@
 L0
-fib1
-LDC 0
-STO fib1
-fib2
-LDC 1
-STO fib2
 n
-READ n
-WRT fib1
-WRT fib2
-fib
 i
-LDC 2
+LDC 1
 STO i
+f
+LDC 1
+STO f
+READ n
 L1
 LOD i
 LOD n
 LEQ
 FJP L2
-LOD fib1
-LOD fib2
-ADI
-STO fib
-WRT fib
-LOD fib2
-STO fib1
-LOD fib
-STO fib2
+LOD f
+LOD i
+MPI
+STO f
 LOD i
 LDC 1
 ADI
 STO i
 UJP L1
 L2
+WRT f
