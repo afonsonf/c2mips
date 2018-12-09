@@ -1,8 +1,6 @@
 int main(){
-    int a=5;
-    int b = 0;
-    while(a>=b){
-        scanf("",&b);
-        printf("",b);
+    int a = 2;
+    if(a==2) {
+      if(1) printf("a"); 
     }
 }

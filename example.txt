@@ -1,26 +1,22 @@
 int main(){
     int a = 2;
+    int b;
     a = a + 2;
 
     while(a == 2){
-        int b = 3;
+        b = 3;
         while(1) scanf("\n");
         printf("a");
     }
-    
-    int a;
-
-    while(a) b = 2;
-
 
     scanf("oi",&a);
     scanf("\n");
-
+    int c;
     if(1) printf("oipoi",a,b,c);
     
-    if(a==2 && b) {
+    if(a==2) {
       if(1) printf("a"); 
-      int a = 1;
+      a = 1;
     } else {
       printf("b");
     }

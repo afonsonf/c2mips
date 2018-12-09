@@ -132,9 +132,10 @@ InstrList *if2instr(If* ifcmd){
     instrlist_append_instr(res,no);
 
     InstrList *tmp = cmdlist2instr(ifcmd->cmdlist);
+    if(tmp) instrlist_append(res, tmp);
+
     no = mk_instr_lbl(lbl_if_end);
-    instrlist_append_instr(tmp,no);
-    instrlist_append(res,tmp);
+    instrlist_append_instr(res,no);
 
     return res;
   }
@@ -147,21 +148,20 @@ InstrList *if2instr(If* ifcmd){
   instrlist_append_instr(res,no);
 
   InstrList *tmp = cmdlist2instr(ifcmd->cmdlist);
+  if(tmp) instrlist_append(res,tmp);
 
   no = mk_instr_ujp(lbl_else_end);
-  instrlist_append_instr(tmp,no);
+  instrlist_append_instr(res,no);
 
   no = mk_instr_lbl(lbl_else_start);
-  instrlist_append_instr(tmp,no);
-
-  instrlist_append(res,tmp);
+  instrlist_append_instr(res,no);
 
   tmp = cmdlist2instr(ifcmd->cmdlist_pos);
+  if(tmp) instrlist_append(res,tmp);
 
   no = mk_instr_lbl(lbl_else_end);
-  instrlist_append_instr(tmp,no);
+  instrlist_append_instr(res,no);
 
-  instrlist_append(res,tmp);
   return res;
 
 }
