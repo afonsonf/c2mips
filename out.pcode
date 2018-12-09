@@ -1,49 +1,35 @@
 L0
-a
-LDC 2
-STO a
-b
-LOD a
-LDC 2
-ADI
-STO a
-L5
-LOD a
-LDC 2
-EQU
-FJP L6
-LDC 3
-STO b
-L7
-LDC 1
+fib1
 LDC 0
-NEQ
-FJP L8
-UJP L7
-L8
-UJP L5
-L6
-READ a
-c
+STO fib1
+fib2
 LDC 1
-LDC 0
-NEQ
-FJP L4
-WRT a
-WRT b
-WRT c
-L4
-LOD a
+STO fib2
+n
+READ n
+WRT fib1
+WRT fib2
+fib
+i
 LDC 2
-EQU
-FJP L1
-LDC 1
-LDC 0
-NEQ
-FJP L3
-L3
-LDC 1
-STO a
-UJP L2
+STO i
 L1
+LOD i
+LOD n
+LEQ
+FJP L2
+LOD fib1
+LOD fib2
+ADI
+STO fib
+WRT fib
+LOD fib2
+STO fib1
+LOD fib
+STO fib2
+LOD i
+LDC 1
+ADI
+STO i
+UJP L1
 L2

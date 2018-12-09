@@ -1,24 +1,22 @@
 int main(){
-    int a = 2;
-    int b;
-    a = a + 2;
+    int fib1 = 0;
+    int fib2 = 1;
+    int n;
 
-    while(a == 2){
-        b = 3;
-        while(1) scanf("\n");
-        printf("a");
-    }
+    scanf("",&n);
 
-    scanf("oi",&a);
-    scanf("\n");
-    int c;
-    if(1) printf("oipoi",a,b,c);
-    
-    if(a==2) {
-      if(1) printf("a"); 
-      a = 1;
-    } else {
-      printf("b");
+    printf("",fib1);
+    printf("",fib2);
+
+    int fib;
+    int i = 2;
+    while(i<=n){
+      fib = fib1 + fib2;
+      printf("",fib);
+
+      fib1 = fib2;
+      fib2 = fib;
+      i = i+1;
     }
 
 }

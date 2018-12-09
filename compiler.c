@@ -269,7 +269,7 @@ InstrList *function2instr(Function *fun){
 }
 
 void print_syscall(int number){
-  printf("\taddi $v0, $0, %d\n",number);
+  printf("\tli $v0, %d\n",number);
   printf("\tSyscall\n");
 }
 
