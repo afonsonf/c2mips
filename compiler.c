@@ -372,14 +372,14 @@ void printMips(InstrList *instrlist)
         printf("\tmfhi $t2\n");
         print_storeinsp("$t2");
         break;
-      case E_MPI: //fon fiz esse, se precisar corrige :D
+      case E_MPI:
         print_loadfromsp("$t1");
         print_loadfromsp("$t2");
         printf("\tmult $t1, $t2\n");
         printf("\tmflo $t2\n");
         print_storeinsp("$t2");
         break;
-      case E_DVI: //nao sei o div so tem 2 argumentos e nao deixa claro onde guarda.
+      case E_DVI:
         print_loadfromsp("$t1");
         print_loadfromsp("$t2");
         printf("\tdiv $t1, $t2\n");
@@ -411,7 +411,7 @@ void printMips(InstrList *instrlist)
       case E_UJP:
         printf("\tj L%d\n",tmp->node->attr.num);
         break;
-      case E_READ: //scanf eh syscall do 5 em mips coloca no v0
+      case E_READ:
         print_syscall(5);
         printf("\tsw $v0, %s\n",tmp->node->attr.var);
         break;
